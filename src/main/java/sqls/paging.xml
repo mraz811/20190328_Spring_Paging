@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="happy.min.jee.paging">
+
+
+<!-- ROWNUM 쿼리 -->
+<select id="selectPaging" parameterType="pagingDto" resultType="listDto">
+	SELECT TITLE, REGDATE
+		FROM(SELECT ROWNUM RN, TITLE, REGDATE
+			FROM(SELECT TITLE, REGDATE
+				FROM PAGING
+				ORDER BY REGDATE DESC))
+	WHERE RN BETWEEN #{start} AND #{last}
+</select>
+
+<!-- <sql id="rowlistFrom"> -->
+<!-- 	SELECT ROWNUM RN, TITLE, REGDATE	 -->
+<!-- 			FROM(SELECT TITLE, REGDATE -->
+<!--  			 FROM PAGING -->
+<!--  	 		ORDER BY REGDATE DESC) -->
+<!-- </sql> -->
+
+<!-- <select id="selectPaging" parameterType="pagingDto" resultType="listDto"> -->
+<!-- 	SELECT TITLE, REGDATE -->
+<!-- 	FROM <include refid="rowlistFrom"/> -->
+<!-- 	WHERE RN BETWEEN #{start} AND #{last} -->
+<!-- </select> -->
+
+<!-- 전체글 개수 -->
+<select id="selectTotalPaging" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM PAGING
+</select>
+
+<!-- 리스트 입력 -->
+<insert id="listinsert" parameterType="listDto">
+	INSERT INTO PAGING(TITLE, REGDATE)
+	VALUES(#{title}, SYSDATE)
+</insert>
+
+<!-- 전체글 삭제 -->
+<delete id="deleteAll">
+	DELETE FROM PAGING
+</delete>
+
+
+
+
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+<!-- 13^^번 -->
+
+<typeAliases>
+	<typeAlias type="happy.min.jee.dto.PagingDto" alias="pagingDto"/>
+	<typeAlias type="happy.min.jee.dto.ListDto" alias="listDto"/>
+</typeAliases>
+
+
+<mappers>
+	<mapper resource="/sqls/paging.xml"/>
+</mappers>
+
+</configuration>

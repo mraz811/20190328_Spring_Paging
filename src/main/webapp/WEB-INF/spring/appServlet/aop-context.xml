@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	
+	<!-- 19^^번 -->
+	<bean name="logAop" class="happy.min.jee.aop.LogExcute" />
+	
+	<!-- 20^^번 -->
+	<aop:config>
+		<aop:pointcut id="serviceLogPoint" expression="execution(public * happy.min.jee.model.*Dao*.*(..))"/>
+		<!-- public으로 된 클래스 중 happy.com.spring.model 패키지 아래의 Dao라는 이름을 포함하는 애의 모든 메소드 -->
+	
+		<aop:aspect id="logAop" ref="logAop">
+			<aop:before method="before" pointcut-ref="serviceLogPoint"/>
+			<aop:after-returning method="afterReturning" pointcut-ref="serviceLogPoint"/>
+			<aop:after-throwing method="daoError" pointcut-ref="serviceLogPoint"/>		
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- 22^^번 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+</beans>
